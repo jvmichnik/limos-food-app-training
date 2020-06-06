@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  limos:
+    image: ${DOCKER_REGISTRY-}limos
+    ports:
+      - 9001:443
+    build:
+      context: .
+      dockerfile: Limos/Dockerfile
+    depends_on:
+      - database
+
+  database:
+    image: db-post
+    restart: always
+    build:
+      context: ./docs
+      dockerfile: Dockerfile
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER : usuario
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB : db_limos
